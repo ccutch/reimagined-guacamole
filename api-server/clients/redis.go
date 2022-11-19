@@ -3,6 +3,7 @@ package clients
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"os"
 	"time"
 
@@ -40,4 +41,16 @@ func GetIssueInRedis(ctx context.Context, id string) (*github.Issue, error) {
 	}
 	err = json.Unmarshal([]byte(buffer), &issue)
 	return &issue, err
+}
+
+func RemoveAllFromRedis(ctx context.Context, prefix string) error {
+	client := ctx.Value(client("redis")).(*redis.Client)
+	iter := client.Scan(0, fmt.Sprintf("%s*", prefix), 0).Iterator()
+	for iter.Next() {
+		err := client.Del(iter.Val()).Err()
+		if err != nil {
+			return err
+		}
+	}
+	return iter.Err()
 }

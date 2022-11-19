@@ -2,6 +2,7 @@ package clients
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/google/go-github/github"
 )
@@ -23,4 +24,8 @@ func GetIssue(ctx context.Context, key string) (*github.Issue, error) {
 		}
 	}
 	return issue, err
+}
+
+func RefreshRepo(ctx context.Context, owner, repo string) error {
+	return RemoveAllFromRedis(ctx, fmt.Sprintf("%s:%s", owner, repo))
 }
