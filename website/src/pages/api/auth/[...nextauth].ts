@@ -1,5 +1,7 @@
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
+import CredentialsProvider from "next-auth/providers/credentials"
+
 // Prisma adapter for NextAuth, optional and can be removed
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
@@ -23,7 +25,24 @@ export const authOptions: NextAuthOptions = {
       clientId: env.GITHUB_CLIENT_ID,
       clientSecret: env.GITHUB_CLIENT_SECRET,
     }),
-    // ...add more providers here
+    CredentialsProvider({
+      name: 'Credentials',
+      credentials: {
+        username: { label: "Username", type: "text"},
+        password: {  label: "Password", type: "password" }
+      },
+      async authorize(credentials, req) {
+        if (credentials?.username && credentials?.password === env.CREDENTIAL_PASSWORD) {
+          return {
+            id: credentials.username,
+            name: "Connor",
+            email: "connormccutcheon95@gmail.com",
+            image: "https://robohash.org/ccutch"
+          }
+        }
+        return null
+      }
+    })
   ],
 };
 
