@@ -3,7 +3,7 @@ package clients
 import (
 	"context"
 
-	"github.com/google/go-github/v48/github"
+	"github.com/google/go-github/github"
 	"golang.org/x/oauth2"
 )
 
@@ -18,4 +18,11 @@ func GetIssuesForRepo(ctx context.Context, owner, repo string) ([]*github.Issue,
 	client := ctx.Value(client("github")).(*github.Client)
 	issues, _, err := client.Issues.ListByRepo(ctx, owner, repo, nil)
 	return issues, err
+}
+
+func GetIssueFromGithub(ctx context.Context, key string) (*github.Issue, error) {
+	client := ctx.Value(client("github")).(*github.Client)
+	owner, repo, number := parseKey(key)
+	issue, _, err := client.Issues.Get(ctx, owner, repo, number)
+	return issue, err
 }

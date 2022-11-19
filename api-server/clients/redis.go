@@ -3,22 +3,41 @@ package clients
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
+	"os"
 	"time"
 
 	"github.com/go-redis/redis"
-	"github.com/google/go-github/v48/github"
+	"github.com/google/go-github/github"
 	"golang.org/x/net/context"
 )
 
 func NewRedisClient(ctx context.Context) *redis.Client {
-	return redis.NewClient(&redis.Options{})
+	hostURL, err := redis.ParseURL(os.Getenv("REDIS_URL"))
+	if err != nil {
+		panic("Failed Redis: " + err.Error())
+	}
+	return redis.NewClient(hostURL)
 }
 
-func StoreIssues(ctx context.Context, owner, repo string, issues []*github.Issue) error {
+func StoreIssueInRedis(ctx context.Context, key string, issue *github.Issue) error {
 	client := ctx.Value(client("redis")).(*redis.Client)
 	var buffer bytes.Buffer
-	json.NewEncoder(&buffer).Encode(issues)
-	resp := client.Set(fmt.Sprintf("%s:%s", owner, repo), buffer.String(), time.Minute*300)
+	err := json.NewEncoder(&buffer).Encode(issue)
+	if err != nil {
+		return err
+	}
+	resp := client.Set(key, buffer.String(), time.Minute*300)
 	return resp.Err()
+}
+
+func GetIssueInRedis(ctx context.Context, id string) (*github.Issue, error) {
+	client := ctx.Value(client("redis")).(*redis.Client)
+	var buffer string
+	var issue github.Issue
+	err := client.Get(id).Scan(&buffer)
+	if err != nil {
+		return nil, err
+	}
+	err = json.Unmarshal([]byte(buffer), &issue)
+	return &issue, err
 }
