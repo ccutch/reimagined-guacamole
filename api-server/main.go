@@ -20,6 +20,7 @@ func main() {
 	http.ListenAndServe(addr(), r)
 }
 
+// addr determines http address based on env or default to 4000
 func addr() string {
 	port, err := strconv.Atoi(os.Getenv("PORT"))
 	if err != nil {
