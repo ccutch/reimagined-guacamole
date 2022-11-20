@@ -12,6 +12,7 @@ const IssuePreview: React.FC<IssuePreviewProps> = ({ number, title, body }) => {
         'overflow': 'hidden',
         'textOverflow': 'ellipsis',
         'display': '-webkit-box',
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         '-webkit-line-clamp': '2',
         '-webkit-box-orient': 'vertical'
@@ -23,6 +24,7 @@ const IssuePreview: React.FC<IssuePreviewProps> = ({ number, title, body }) => {
         'overflow': 'hidden',
         'textOverflow': 'ellipsis',
         'display': '-webkit-box',
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         '-webkit-line-clamp': '3',
         '-webkit-box-orient': 'vertical'
