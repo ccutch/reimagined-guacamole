@@ -29,25 +29,6 @@ export const authOptions: NextAuthOptions = {
     DiscordProvider({
       clientId: env.DISCORD_CLIENT_ID,
       clientSecret: env.DISCORD_CLIENT_SECRET
-    }),
-    CredentialsProvider({
-      id: "credential-login",
-      name: 'Credentials',
-      credentials: {
-        username: { label: "Username", type: "text"},
-        password: {  label: "Password", type: "password" }
-      },
-      async authorize(credentials, req) {
-        if (credentials?.username && credentials?.password === env.CREDENTIAL_PASSWORD) {
-          return {
-            id: credentials.username,
-            name: "Connor",
-            email: "connormccutcheon95@gmail.com",
-            image: "https://robohash.org/ccutch"
-          }
-        }
-        return null
-      }
     })
   ],
 };
