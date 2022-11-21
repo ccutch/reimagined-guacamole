@@ -47,8 +47,8 @@ func IndexIssues(ctx context.Context, owner, repo string, issue *github.Issue) e
 	})
 }
 
-func SearchIssues(ctx context.Context, owner, repo, query string) ([]*github.Issue, error) {
-	var issues = []*github.Issue{}
+func SearchIssues(ctx context.Context, owner, repo, query string) (map[string]*github.Issue, error) {
+	var issues = map[string]*github.Issue{}
 	search := bleve.NewSearchRequest(bleve.NewMatchQuery(query))
 	results, err := index.Search(search)
 	if err != nil {
@@ -60,7 +60,8 @@ func SearchIssues(ctx context.Context, owner, repo, query string) ([]*github.Iss
 		if err != nil {
 			break
 		}
-		issues = append(issues, issue)
+		issues[formatKey(owner, repo, *issue.Number)] = issue
+		// issues = append(issues, issue)
 	}
 	return issues, err
 }

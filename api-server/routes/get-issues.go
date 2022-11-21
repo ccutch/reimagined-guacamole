@@ -14,7 +14,7 @@ import (
 // GetIssues first checks redis for a previous query, then if none exist
 // fetches issues from Github and caches response.
 func GetIssues(w http.ResponseWriter, r *http.Request) {
-	var issues []*github.Issue
+	var issues map[string]*github.Issue
 	var err error
 	ctx, query, owner, repo := parseRequest(r)
 	if query == "" {
@@ -40,7 +40,7 @@ func parseRequest(r *http.Request) (context.Context, string, string, string) {
 	return ctx, query, owner, repo
 }
 
-func getAllIssues(ctx context.Context, owner, repo string) ([]*github.Issue, error) {
+func getAllIssues(ctx context.Context, owner, repo string) (map[string]*github.Issue, error) {
 	issues, err := clients.GetIssuesForRepo(ctx, owner, repo)
 	if err != nil {
 		return issues, err

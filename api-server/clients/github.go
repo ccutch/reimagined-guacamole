@@ -14,10 +14,14 @@ func NewGithubClient(ctx context.Context, token string) *github.Client {
 }
 
 // GetIssuesForRepo gets all the issues in a repo
-func GetIssuesForRepo(ctx context.Context, owner, repo string) ([]*github.Issue, error) {
+func GetIssuesForRepo(ctx context.Context, owner, repo string) (map[string]*github.Issue, error) {
+	var issueMap = map[string]*github.Issue{}
 	client := ctx.Value(client("github")).(*github.Client)
 	issues, _, err := client.Issues.ListByRepo(ctx, owner, repo, nil)
-	return issues, err
+	for _, issue := range issues {
+		issueMap[formatKey(owner, repo, *issue.Number)] = issue
+	}
+	return issueMap, err
 }
 
 func GetIssueFromGithub(ctx context.Context, key string) (*github.Issue, error) {
