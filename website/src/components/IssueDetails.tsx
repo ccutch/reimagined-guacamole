@@ -47,7 +47,7 @@ const IssueDetails: React.FC<IssueDetailsProps> = ({ issueKey: key, close, onRef
                 <div className='px-8 py-5 flex gap-4'>
                     <button onClick={e => prioritize(key, { onSuccess() { refetch();onRefresh(); } })}
                         className={`flex items-center px-4 py-1.5 rounded-md border-2 text-sm border-green-400 hover:bg-green-300 hover:text-white
-                                    text-gray-500 ${watching ? 'bg-green-400' : 'bg-white'} `}>
+                                    ${watching ? 'text-white' : 'text-green-400'} ${watching ? 'bg-green-400' : 'bg-white'} `}>
                         <FaEye className='mr-2' />
                         {!watching && 'Not '}Watching
                     </button>
