@@ -1,13 +1,13 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 import { trpc } from "../utils/trpc";
 import IssuePreview from "../components/IssuePreview";
 import Navbar from "../components/Navbar";
 import BackgroundImage from "../components/BackgroundImage";
 import UserSummary from "../components/UserSummary";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Issue } from "../types/issue";
 import IssueDetails from "../components/IssueDetails";
 
@@ -22,6 +22,7 @@ const Home: NextPage = () => {
 
   const [selectedIssue, setSelectedIssue] = useState<null | string>(null)
   const selectIssue = (key: string) => setSelectedIssue(key)
+
 
   return (
     <>
@@ -38,7 +39,7 @@ const Home: NextPage = () => {
         <div className='container flex justify-between gap-12 px-4 py-16 h-full'>
           <UserSummary />
           <div className="mb-4 grid grid-cols-5 gap-4 md:gap-8 w-auto mr-auto">
-            {issues && Object.entries(issues as Map<string, Issue>).map(([key, issue]) => (
+            {issues && Object.entries(issues as {[key: string]: Issue}).map(([key, issue]) => (
               <div key={key} onClick={() => selectIssue(key)}>
                 <IssuePreview  {...issue} />
               </div>

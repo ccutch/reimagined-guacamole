@@ -1,5 +1,6 @@
+import Link from 'next/link';
 import { useMemo } from 'react';
-import { FaCheck, FaEye, FaGithub, FaGlobe, FaRegWindowClose, FaUndo } from 'react-icons/fa'
+import { FaCheck, FaClipboardList, FaEye, FaGithub, FaGlobe, FaList, FaRegWindowClose, FaUndo } from 'react-icons/fa'
 import { DefaultSerializer } from 'v8';
 import { trpc } from '../utils/trpc';
 
@@ -40,6 +41,12 @@ const IssueDetails: React.FC<IssueDetailsProps> = ({ issueKey: key, close, onRef
                             className='text-blue-400 underline'>
                             https://github.com/{owner}/{repo}
                         </a>
+                    </div>
+                    <div className='py-4 flex items-center text-md'>
+                        <FaClipboardList className='text-gray-500 mr-3' />
+                        <Link href={`/${owner}/${repo}`}className='text-blue-400 underline'>
+                            View Repository Issues
+                        </Link>
                     </div>
                 </div>
 

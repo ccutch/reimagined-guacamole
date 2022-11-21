@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { Issue } from "../../../types/issue";
 import { router, publicProcedure, protectedProcedure } from "../trpc";
 
 export const issuesRouter = router({
@@ -6,14 +7,14 @@ export const issuesRouter = router({
     .input(z.object({ owner: z.string(), repo: z.string(), query: z.string().default("") }))
     .query(async ({ input: { owner, repo, query } }) => {
       const issues = await fetch(`https://issues-api.made-by-connor.com/${owner}/${repo}/issues?query=${query}`)
-        .then(res => res.json())
+        .then(res => res.json() as Promise<{[key: string]: Issue}>)
       return issues
     }),
   refreshRepository: publicProcedure
     .input(z.object({ owner: z.string(), repo: z.string() }))
     .mutation(async ({ input: { owner, repo } }) => {
       const issues = await fetch(`https://issues-api.made-by-connor.com/${owner}/${repo}/refresh}`)
-        .then(res => res.json())
+        .then(res => res.json() as Promise<{[key: string]: Issue}>)
       return issues
     }),
   getIssueDetails: publicProcedure
@@ -30,7 +31,7 @@ export const issuesRouter = router({
         }),
 
         fetch(`https://issues-api.made-by-connor.com/batch?key=${key}`)
-          .then(res => res.json())
+          .then(res => res.json() as Promise<{[key: string]: Issue}>)
           .then(batch => batch[key])
       ])
 
@@ -72,7 +73,7 @@ export const issuesRouter = router({
         .findMany({ where: { owner_id: ctx.session.user.id } })
       const keys = priorities.map(p => `key=${p.issue_key}`).join('&')
       const issues = await fetch(`https://issues-api.made-by-connor.com/batch?${keys}`)
-        .then(res => res.json())
+        .then(res => res.json() as Promise<{[key: string]: Issue}>)
       return issues
     }),
 });
