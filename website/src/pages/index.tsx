@@ -29,7 +29,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Create T3 App</title>
+        <title>RidgeLine - Github Issue Filter</title>
         <meta name="description" content="RidgeLine - Github Issue Filter" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -64,7 +64,7 @@ export default Home;
 
 const SigninPanel: React.FC = () => {
   return (
-    <div className='flex flex-col items-center p-12 rounded-lg bg-white bg-opacity-90'>
+    <div className='flex flex-col items-center p-12 rounded-lg bg-white bg-opacity-90 mt-10'>
       <h1 className="font-bold text-gray-300 text-5xl mb-4">Please Login</h1>
       <h4 className="font-semibold text-gray-300 text-xl">Login with Discord to get started.</h4>
 

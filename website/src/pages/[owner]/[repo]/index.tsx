@@ -21,7 +21,7 @@ const Repository: NextPage = () => {
     return (
         <>
             <Head>
-                <title>Create T3 App</title>
+                <title>RidgeLine - {owner} / {repo} Issues</title>
                 <meta name="description" content="RidgeLine - Github Issue Filter" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
