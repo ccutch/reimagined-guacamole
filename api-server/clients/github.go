@@ -2,6 +2,7 @@ package clients
 
 import (
 	"context"
+	"os"
 
 	"github.com/google/go-github/github"
 	"golang.org/x/oauth2"
@@ -9,8 +10,8 @@ import (
 
 // NewGithubClient creates a new GithubClient from the given context
 func NewGithubClient(ctx context.Context, token string) *github.Client {
-	// ts := oauth2.StaticTokenSource(&oauth2.Token{AccessToken: token})
-	return github.NewClient(oauth2.NewClient(ctx, nil))
+	ts := oauth2.StaticTokenSource(&oauth2.Token{AccessToken: os.Getenv("API_TOKEN")})
+	return github.NewClient(oauth2.NewClient(ctx, ts))
 }
 
 // GetIssuesForRepo gets all the issues in a repo
