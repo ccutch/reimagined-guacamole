@@ -1,4 +1,3 @@
-import { contextProps } from "@trpc/react-query/dist/internals/context";
 import { z } from "zod";
 import { router, publicProcedure, protectedProcedure } from "../trpc";
 
@@ -24,7 +23,7 @@ export const issuesRouter = router({
         ctx.prisma.prioritizedIssues.findUnique({
           where: {
             owner_id_issue_key: {
-              owner_id: ctx.session?.user?.id!,
+              owner_id: ctx.session!.user!.id,
               issue_key: key,
             }
           }
@@ -43,7 +42,7 @@ export const issuesRouter = router({
       const row = await ctx.prisma.prioritizedIssues.findUnique({
         where: {
           owner_id_issue_key: {
-            owner_id: ctx.session?.user?.id!,
+            owner_id: ctx.session!.user!.id,
             issue_key: key,
           }
         }
@@ -51,7 +50,7 @@ export const issuesRouter = router({
       if (row == null) {
         await ctx.prisma.prioritizedIssues.create({
           data: {
-            owner_id: ctx.session?.user?.id!,
+            owner_id: ctx.session!.user!.id,
             issue_key: key,
           }
         })
@@ -60,7 +59,7 @@ export const issuesRouter = router({
       await ctx.prisma.prioritizedIssues.delete({
         where: {
           owner_id_issue_key: {
-            owner_id: ctx.session?.user?.id!,
+            owner_id: ctx.session!.user!.id,
             issue_key: key,
           }
         }
