@@ -7,8 +7,8 @@ type IssuePreviewProps = {
 
 const IssuePreview: React.FC<IssuePreviewProps> = ({ number, title, body }) => {
   return (
-    <div className='w-[180px] h-[180px] p-4 rounded-md shadow-md bg-white'>
-      <h5 className='text-gray-700 font-semibold min-h-[48px]'style={{
+    <div className='w-[180px] h-[180px] p-4 rounded-md shadow-md bg-white select-none cursor-pointer'>
+      <h5 className='text-gray-800 text-lg font-semibold min-h-[48px]'style={{
         'overflow': 'hidden',
         'textOverflow': 'ellipsis',
         'display': '-webkit-box',
