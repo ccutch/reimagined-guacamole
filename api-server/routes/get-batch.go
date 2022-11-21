@@ -10,13 +10,13 @@ import (
 )
 
 func GetBatch(w http.ResponseWriter, r *http.Request) {
-	var issues = []*github.Issue{}
+	var issues = map[string]*github.Issue{}
 	var err error
 
 	for _, key := range r.URL.Query()["key"] {
 		var issue *github.Issue
 		issue, _ = clients.GetIssue(r.Context(), key)
-		issues = append(issues, issue)
+		issues[key] = issue
 	}
 
 	if err != nil {
