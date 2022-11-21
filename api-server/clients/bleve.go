@@ -3,6 +3,7 @@ package clients
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/blevesearch/bleve/v2"
 	"github.com/google/go-github/github"
@@ -56,6 +57,9 @@ func SearchIssues(ctx context.Context, owner, repo, query string) (map[string]*g
 	}
 	for _, hit := range results.Hits {
 		var issue *github.Issue
+		if !strings.HasPrefix(hit.ID, fmt.Sprintf("%s:%s", owner, repo)) {
+			continue
+		}
 		issue, err = GetIssue(ctx, hit.ID)
 		if err != nil {
 			break
