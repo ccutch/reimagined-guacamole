@@ -10,9 +10,11 @@ import { trpc } from "../../../utils/trpc";
 
 const Repository: NextPage = () => {
     const router = useRouter()
-    const { owner, repo } = router.query as { owner: string; repo: string }
+    const { owner, repo } = router.query as { owner?: string; repo?: string }
     
-    const { data: issues, refetch } = trpc.issues.getRepositoryIssues.useQuery({ owner, repo })
+    const { data: issues, refetch } = trpc.issues.getRepositoryIssues.useQuery({ owner, repo }, {
+        enabled: owner != null && repo != null
+    })
 
     const [selectedIssue, selectIssue] = useState<null | string>(null)
 
@@ -24,9 +26,10 @@ const Repository: NextPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main className="flex h-screen flex-col items-center">
-                <Navbar />
+                <Navbar title={`${owner} / ${repo}`} />
 
-                <div className='container flex justify-between gap-12 px-4 py-16 h-full'>
+                <div className='container flex flex-col gap-12 px-4 py-12 h-full'>
+                    <h2 className="text-3xl font-bold text-gray-500">Latest Issues</h2>
                     <div className="mb-4 grid grid-cols-5 gap-4 md:gap-8 w-auto mr-auto">
                         {issues && Object.entries(issues).map(([key, issue]) => (
                             <div key={key} onClick={() => selectIssue(key)} >
