@@ -12,9 +12,9 @@ const Repository: NextPage = () => {
     const router = useRouter()
     const { owner, repo } = router.query as { owner?: string; repo?: string }
     
-    const { data: issues, refetch } = trpc.issues.getRepositoryIssues.useQuery({ owner, repo }, {
-        enabled: owner != null && repo != null
-    })
+    const { data: issues, refetch } = trpc.issues.getRepositoryIssues.useQuery(
+        { owner, repo } as { owner: string; repo: string },
+        { enabled: owner != null && repo != null })
 
     const [selectedIssue, selectIssue] = useState<null | string>(null)
 
