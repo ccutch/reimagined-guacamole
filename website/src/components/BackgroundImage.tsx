@@ -19,7 +19,7 @@ const BackgroundImage: React.FC<BackgroundImageProps> = ({ cycleTime = 50_000 })
 
     return (
         <div className='h-full w-full fixed inset-0 z-[-1] bg-center bg-cover' style={{
-            backgroundImage: `url(https://picsum.photos/1512/982?blur=2#${seed})`,
+            backgroundImage: `url(https://picsum.photos/seed/${seed}/1512/982?blur=2)`,
         }}>
             <div className='h-full w-full bg-white bg-opacity-60'/>
         </div>
