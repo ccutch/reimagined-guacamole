@@ -14,7 +14,7 @@ const Navbar: React.FC<NavbarProps> = ({ title, clear = false }) => {
         {clear && <div className="w-full min-h-[84px]"></div>}
         <div className={`flex items-center px-16 py-5 w-full bg-${clear ? 'transparent' : 'white'} ${clear ? 'fixed pt-8' : 'shadow-md'}`}>
             <Link href="/" className='flex items-center'>
-                <img src='https://railway.app/brand/logo-dark.png' 
+                <img src='https://www.made-by-connor.com/my-face.jpg' 
                     className='h-6 mr-4 rounded-full'/>
                 <h4 className='font-semibold text-2xl text-gray-700'>{title || 'RidgeLine'}</h4>
             </Link>
